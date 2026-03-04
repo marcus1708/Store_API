@@ -47,9 +47,9 @@ module.exports = {
     async index(req, res) {
         try {
             const lista = await ListaCompras.find()
-                .populate('id_user', 'nome email')
-                .populate('id_loja', 'nome endereco')
-                .populate('id_prod', 'nome descricao');
+                .populate('id_user', 'id do usuario')
+                .populate('id_loja', 'id da loja')
+                .populate('id_prod', 'id do produto');
 
             return res.status(200).json({
                 message: "Listagem de todas as listas realizada",

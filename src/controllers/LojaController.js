@@ -47,7 +47,7 @@ module.exports = {
         try {
             const loja = await Loja.findByIdAndUpdate(req.params.id, req.body, { new: true });
             if (!loja) return res.status(400).json({ message: "Loja nao atualizada" });
-            return res.status(200).json({ message: "Dados do loja atualizadas" });
+            return res.status(200).json({ message: "Dados da loja atualizadas" });
         } catch (err) {
             return res.status(400).json({ message: "Loja nao atualizada" });
         }
@@ -57,7 +57,7 @@ module.exports = {
         try {
             const loja = await Loja.findByIdAndUpdate(req.params.id, { $set: req.body }, { new: true });
             if (!loja) return res.status(400).json({ message: "Loja nao atualizada" });
-            return res.status(200).json({ message: "Dados do loja atualizadas" });
+            return res.status(200).json({ message: "Dados da loja atualizadas" });
         } catch (err) {
             return res.status(400).json({ message: "Loja nao atualizada" });
         }
