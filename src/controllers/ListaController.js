@@ -52,7 +52,7 @@ module.exports = {
                 .populate('id_prod', 'id do produto');
 
             return res.status(200).json({
-                message: "Listagem de todas as listas realizada",
+                message: "Listagem de todas as listas realizadas",
                 lista
             });
         } catch (err) {
