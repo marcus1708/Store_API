@@ -1,0 +1,448 @@
+openapi: '3.0.0'
+
+info:
+  title: API Loja
+  description: API para gerenciamento de usuários, lojas, produtos e listas de compras
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+
+tags:
+  - name: Usuários
+  - name: Lojas
+  - name: Produtos
+  - name: Listas
+
+components:
+  schemas:
+
+    Usuario:
+      type: object
+      required:
+        - nome
+        - email
+        - senha
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        endereco:
+          type: string
+
+    Loja:
+      type: object
+      required:
+        - nome
+        - cnpj
+      properties:
+        nome:
+          type: string
+        cnpj:
+          type: string
+        endereco:
+          type: string
+
+    Produto:
+      type: object
+      required:
+        - nome
+        - preco
+        - loja
+      properties:
+        nome:
+          type: string
+        preco:
+          type: number
+        loja:
+          type: string
+          description: ID da loja vinculada
+
+    Lista:
+      type: object
+      required:
+        - usuario
+        - produtos
+      properties:
+        usuario:
+          type: string
+          description: ID do usuário
+        produtos:
+          type: array
+          items:
+            type: string
+          description: IDs dos produtos
+
+paths:
+
+  /usuarios:
+    post:
+      summary: Cria um novo usuário
+      tags:
+        - Usuários
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        201:
+          description: Usuário criado com sucesso
+
+    get:
+      summary: Lista todos os usuários
+      tags:
+        - Usuários
+      responses:
+        200:
+          description: Usuários retornados com sucesso
+
+  /usuarios/{id}:
+    get:
+      summary: Busca um usuário pelo ID
+      tags:
+        - Usuários
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuário encontrado
+
+    put:
+      summary: Atualiza um usuário completo
+      tags:
+        - Usuários
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        200:
+          description: Usuário atualizado com sucesso
+
+    patch:
+      summary: Atualiza parcialmente um usuário
+      tags:
+        - Usuários
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        200:
+          description: Usuário atualizado parcialmente
+
+    delete:
+      summary: Remove um usuário
+      tags:
+        - Usuários
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Usuário removido com sucesso
+
+
+
+  /lojas:
+    post:
+      summary: Cria uma nova loja
+      tags:
+        - Lojas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loja'
+      responses:
+        201:
+          description: Loja criada com sucesso
+
+    get:
+      summary: Lista todas as lojas
+      tags:
+        - Lojas
+      responses:
+        200:
+          description: Lojas retornadas com sucesso
+
+  /lojas/{id}:
+    get:
+      summary: Busca uma loja pelo ID
+      tags:
+        - Lojas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Loja encontrada
+
+    put:
+      summary: Atualiza uma loja completa
+      tags:
+        - Lojas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loja'
+      responses:
+        200:
+          description: Loja atualizada com sucesso
+
+    patch:
+      summary: Atualiza parcialmente uma loja
+      tags:
+        - Lojas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Loja'
+      responses:
+        200:
+          description: Loja atualizada parcialmente
+
+    delete:
+      summary: Remove uma loja
+      tags:
+        - Lojas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Loja removida com sucesso
+
+  /produtos:
+    post:
+      summary: Cria um novo produto
+      tags:
+        - Produtos
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+      responses:
+        201:
+          description: Produto criado com sucesso
+
+    get:
+      summary: Lista todos os produtos
+      tags:
+        - Produtos
+      responses:
+        200:
+          description: Produtos retornados com sucesso
+
+  /produtos/{id}:
+    get:
+      summary: Busca um produto pelo ID
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Produto encontrado
+
+    put:
+      summary: Atualiza um produto completo
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+      responses:
+        200:
+          description: Produto atualizado com sucesso
+
+    patch:
+      summary: Atualiza parcialmente um produto
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Produto'
+      responses:
+        200:
+          description: Produto atualizado parcialmente
+
+    delete:
+      summary: Remove um produto
+      tags:
+        - Produtos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Produto removido com sucesso
+  /listas:
+    post:
+      summary: Cria uma lista de compras
+      tags:
+        - Listas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lista'
+      responses:
+        201:
+          description: Lista criada com sucesso
+
+    get:
+      summary: Lista todas as listas
+      tags:
+        - Listas
+      responses:
+        200:
+          description: Listas retornadas com sucesso
+
+  /listas/{id}:
+    get:
+      summary: Busca uma lista pelo ID
+      tags:
+        - Listas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lista encontrada
+
+    put:
+      summary: Atualiza uma lista completa
+      tags:
+        - Listas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lista'
+      responses:
+        200:
+          description: Lista atualizada com sucesso
+
+    patch:
+      summary: Atualiza parcialmente uma lista
+      tags:
+        - Listas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lista'
+      responses:
+        200:
+          description: Lista atualizada parcialmente
+
+    delete:
+      summary: Remove uma lista
+      tags:
+        - Listas
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Lista removida com sucesso
