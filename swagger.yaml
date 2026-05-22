@@ -1,4 +1,4 @@
-openapi: '3.0.0'
+openapi: 3.0.0
 
 info:
   title: API Loja
@@ -7,6 +7,8 @@ info:
 
 servers:
   - url: http://localhost:3333
+security:
+  - bearerAuth: []
 
 tags:
   - name: Usuários
@@ -15,7 +17,27 @@ tags:
   - name: Listas
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Token Bearer retornado pelo endpoint /login
   schemas:
+
+    Login:
+      tags:
+        - name: Login
+      type: object
+      required:
+        - email
+        - senha
+      properties:
+        email:
+          type: string
+          example: admin@email.com
+        senha:
+          type: string
+          example: 123456
 
     Usuario:
       type: object
@@ -77,7 +99,24 @@ components:
           description: IDs dos produtos
 
 paths:
+  /login:
+    post:
+      summary: Realiza autenticação do usuário
+      tags:
+        - Login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
 
+      responses:
+        200:
+          description: Login realizado com sucesso
+
+        401:
+          description: Email ou senha inválidos
   /usuarios:
     post:
       summary: Cria um novo usuário
@@ -175,6 +214,8 @@ paths:
   /lojas:
     post:
       summary: Cria uma nova loja
+      security:
+        - bearerAuth: []
       tags:
         - Lojas
       requestBody:
@@ -212,6 +253,8 @@ paths:
 
     put:
       summary: Atualiza uma loja completa
+      security:
+        - bearerAuth: []
       tags:
         - Lojas
       parameters:
@@ -232,6 +275,8 @@ paths:
 
     patch:
       summary: Atualiza parcialmente uma loja
+      security:
+        - bearerAuth: []
       tags:
         - Lojas
       parameters:
@@ -267,6 +312,8 @@ paths:
   /produtos:
     post:
       summary: Cria um novo produto
+      security:
+        - bearerAuth: []
       tags:
         - Produtos
       requestBody:
@@ -304,6 +351,8 @@ paths:
 
     put:
       summary: Atualiza um produto completo
+      security:
+        - bearerAuth: []
       tags:
         - Produtos
       parameters:
@@ -324,6 +373,8 @@ paths:
 
     patch:
       summary: Atualiza parcialmente um produto
+      security:
+        - bearerAuth: []
       tags:
         - Produtos
       parameters:
@@ -358,6 +409,8 @@ paths:
   /listas:
     post:
       summary: Cria uma lista de compras
+      security:
+        - bearerAuth: []
       tags:
         - Listas
       requestBody:
@@ -395,6 +448,8 @@ paths:
 
     put:
       summary: Atualiza uma lista completa
+      security:
+        - bearerAuth: []
       tags:
         - Listas
       parameters:
@@ -415,6 +470,8 @@ paths:
 
     patch:
       summary: Atualiza parcialmente uma lista
+      security:
+        - bearerAuth: []
       tags:
         - Listas
       parameters:
