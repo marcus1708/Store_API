@@ -1,27 +1,217 @@
 🛒 API de Gerenciamento de Compras
 
-Esta é uma API REST desenvolvida em Node.js com MongoDB (Mongoose) para gerenciar usuários, produtos, lojas e listas de compras. 
-O projeto foca em integridade de dados e padronização de respostas 
+API REST desenvolvida em Node.js, Express e MongoDB (Mongoose) para gerenciamento de:
 
-HTTP.🚀 Principais Funcionalidades
+Usuários
+Produtos
+Lojas
+Listas de Compras
 
-Usuários: Cadastro e gestão de clientes.
-Produtos: Controle de catálogo com validação de preço e estoque.
-Lojas: Gerenciamento de unidades e filiais.
-Lista de Compras: Vínculo inteligente entre usuários, produtos e lojas com cálculos e validações relacionais.
+O projeto foi construído com foco em:
 
+Integridade dos dados
+Relacionamentos entre entidades
+Regras de negócio
+Testes de API
+Documentação Swagger
+🚀 Principais Funcionalidades
+👤 Usuários
+Cadastro de usuários
+Consulta individual e listagem
+Atualização total (PUT)
+Atualização parcial (PATCH)
+Exclusão com validação de vínculo
+🏪 Lojas
+Cadastro e gerenciamento de lojas
+Consulta individual e listagem
+Atualização total e parcial
+Exclusão protegida por regras de negócio
+📦 Produtos
+Cadastro de produtos
+Controle de preço e quantidade
+Atualização total e parcial
+Exclusão condicionada ao status das listas
+📋 Lista de Compras
+Associação entre usuário, loja e produto
+Controle de quantidade e preço histórico
+Validação automática de relacionamentos
+Controle de status da lista
+Prevenção de duplicidade
+Limite de itens por lista
 🛠️ Regras de Negócio Implementadas
+Integridade Referencial
 
-Para garantir a consistência do sistema, as seguintes regras foram aplicadas:
+Não é permitido excluir:
 
-Integridade Referencial: Não é permitido excluir um Usuário, Produto ou Loja se eles estiverem vinculados a qualquer Lista de Compras (Retorno: 404).
-Prevenção de Duplicidade: O sistema bloqueia a criação de registros com dados já existentes (como e-mails ou nomes duplicados) (Retorno: 404).
-Validação de Existência: Ao criar uma lista, a API verifica se o ID do usuário, da loja e do produto realmente existem no banco de dados.
-Campos Obrigatórios: Verificação rigorosa de campos nulos e valores numéricos (Preços e Quantidades devem ser positivos).
+Usuário vinculado a lista
+Loja vinculada a lista
+Produto vinculado a lista ativa
 
-📊 Padrão de Respostas HTTPA API segue um contrato estrito de comunicação:
+Exemplo:
 
+Produto → Lista ATIVA
+↓
+Exclusão bloqueada
 
+Retorno:
+
+409 Conflict
+Validação de Existência
+
+Ao criar uma lista, a API valida se existem:
+
+Usuário
+Loja
+Produto
+
+Caso algum ID não exista:
+
+404 Not Found
+Campos Obrigatórios
+
+Validação dos campos obrigatórios em todas as entidades.
+
+Exemplos:
+
+Nome obrigatório
+Email obrigatório
+Quantidade maior que zero
+Preço não negativo
+Prevenção de Duplicidade
+
+Usuários com mesmo email não podem ser cadastrados.
+
+Produtos duplicados não são recriados dentro da mesma lista.
+
+Incremento Automático de Quantidade
+
+Quando o mesmo produto é adicionado novamente para o mesmo:
+
+usuário
+loja
+produto
+
+o sistema atualiza a quantidade existente ao invés de criar um novo registro.
+
+Exemplo
+
+Lista atual:
+
+{
+  "produto": "Arroz",
+  "quantidade": 5
+}
+
+Nova inclusão:
+
+{
+  "produto": "Arroz",
+  "quantidade": 2
+}
+
+Resultado:
+
+{
+  "produto": "Arroz",
+  "quantidade": 7
+}
+Limite Máximo de Itens
+
+Cada combinação:
+
+Usuário + Loja
+
+pode possuir até:
+
+100 itens
+
+Ao atingir o limite:
+
+400 Bad Request
+
+Resposta:
+
+{
+  "message": "Limite máximo de 100 itens na lista atingido"
+}
+📋 Status da Lista
+
+Cada item da lista possui um status:
+
+Status	Descrição
+ATIVA	Lista em utilização
+FINALIZADA	Compra concluída
+CANCELADA	Lista encerrada sem conclusão
+
+Valor padrão:
+
+{
+  "status": "ATIVA"
+}
+🔒 Regra de Exclusão de Produtos
+
+Produtos vinculados a listas ativas não podem ser removidos.
+
+Exemplo
+Produto
+↓
+Lista ATIVA
+↓
+Exclusão bloqueada
+
+Resposta:
+
+409 Conflict
+{
+  "message": "Não é permitido excluir um produto vinculado a uma lista ativa"
+}
+
+Produtos vinculados apenas a listas:
+
+FINALIZADAS
+CANCELADAS
+
+podem ser removidos normalmente.
+
+📊 Códigos HTTP Utilizados
+Código	Significado
+200	Operação realizada com sucesso
+201	Recurso criado
+400	Dados inválidos
+404	Recurso não encontrado
+409	Conflito de regra de negócio
+500	Erro interno do servidor
+📚 Documentação Swagger
+
+Após iniciar a aplicação:
+
+npm start
+
+Acesse:
+
+http://localhost:3333/api-docs
 💻 Tecnologias
+Node.js
+Express
+MongoDB
+Mongoose
+Swagger UI
+YAML
+Dotenv
+🎯 Objetivos do Projeto
 
-Node.jsExpressMongoDB / Mongoose
+Este projeto foi desenvolvido para:
+
+Prática de desenvolvimento Backend
+Exercícios de modelagem de APIs REST
+Estudos de MongoDB e Mongoose
+Testes manuais e automatizados de API
+Aplicação de regras de negócio e integridade referencial
+
+As principais implementações recentes incluem:
+
+✅ Controle de status das listas
+✅ Limite de 100 itens por lista
+✅ Incremento automático de quantidade para produtos repetidos
+✅ Bloqueio de exclusão de produtos vinculados a listas ativas
+✅ Validação de integridade referencial entre entidades

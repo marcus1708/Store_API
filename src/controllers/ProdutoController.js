@@ -66,18 +66,48 @@ module.exports = {
     },
 
     async destroy(req, res) {
-        try {
-            // Regra: Verificar vínculo com lista
-            const vinculado = await ListaCompras.findOne({ id_prod: req.params.id });
-            if (vinculado) {
-                return res.status(404).json({ message: "Não é permitido excluir Usuario,produto ou loja vinculado a uma lista" });
-            }
 
-            const produto = await Produto.findByIdAndDelete(req.params.id);
-            if (!produto) return res.status(400).json({ message: "Produto nao deletado" });
-            return res.status(200).json({ message: "Produto excluido" });
-        } catch (err) {
-            return res.status(400).json({ message: "Produto nao deletado" });
+    try {
+
+        // Verifica se o produto está vinculado
+        // a alguma lista ATIVA
+
+        const vinculado = await ListaCompras.findOne({
+            id_prod: req.params.id,
+            status: 'ATIVA'
+        });
+
+        if (vinculado) {
+
+            return res.status(409).json({
+                message:
+                    'Não é permitido excluir um produto vinculado a uma lista ativa'
+            });
         }
+
+        const produto =
+            await Produto.findByIdAndDelete(
+                req.params.id
+            );
+
+        if (!produto) {
+
+            return res.status(404).json({
+                message: 'Produto não encontrado'
+            });
+        }
+
+        return res.status(200).json({
+            message: 'Produto excluído com sucesso'
+        });
+
+    } catch (err) {
+
+        console.error(err);
+
+        return res.status(500).json({
+            message: 'Erro interno ao excluir produto'
+        });
     }
+  }
 };
