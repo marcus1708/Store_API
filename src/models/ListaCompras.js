@@ -47,9 +47,7 @@ const ListaComprasSchema = new mongoose.Schema({
     }
 
 }, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    timestamps: true
 });
 
 ListaComprasSchema.virtual('id_lista').get(function () {

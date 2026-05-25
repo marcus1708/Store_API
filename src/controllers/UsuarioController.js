@@ -75,7 +75,7 @@ module.exports = {
 
             const usuario = await Usuario.findByIdAndDelete(req.params.id);
             if (!usuario) return res.status(400).json({ message: "Usuario nao deletado" });
-            return res.status(200).json({ message: "Usuario excluido" });
+            return res.status(200).json({ message: "Usuario excluído" });
         } catch (err) {
             return res.status(400).json({ message: "Usuario nao deletado" });
         }

@@ -6,9 +6,7 @@ const UsuarioSchema = new mongoose.Schema({
     endereco: { type: String, required: true },
     senha: { type: String, required: true } // Em um projeto real, faríamos hash aqui
 }, { 
-    timestamps: true,
-    toJSON: { virtuals: true }, 
-    toObject: { virtuals: true } 
+    timestamps: true
 });
 
 // Criando um virtual para 'id_user' para ficar igual ao seu pedido

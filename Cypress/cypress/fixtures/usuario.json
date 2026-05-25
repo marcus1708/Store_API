@@ -1,0 +1,16 @@
+{
+  "user":{
+  "nome": "QA",
+  "email": "qa@io.com",
+  "senha": "123",
+  "endereco": "rua a,123"},
+
+  "atlz_usuario":{
+  "nome": "QA",
+  "email": "qa@io.com",
+  "senha": "123",
+  "endereco": "rua a,123"},
+  
+  "atlz_parc":{
+  "nome": "QA"}
+}

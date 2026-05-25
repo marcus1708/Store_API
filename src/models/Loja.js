@@ -5,9 +5,7 @@ const LojaSchema = new mongoose.Schema({
     endereco: { type: String, required: true },
     filial: { type: Boolean, default: false } // 'sim' ou 'nao' vira true ou false
 }, { 
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    timestamps: true
 });
 
 // Gera o id_loja virtual para o retorno da API

@@ -6,9 +6,7 @@ const ProdutoSchema = new mongoose.Schema({
     preco: { type: Number, required: true },
     quantidade: { type: Number, required: true }
 }, { 
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    timestamps: true
 });
 
 // Gera o id_prod virtual
