@@ -14,23 +14,28 @@ Relacionamentos entre entidades
 Regras de negócio
 Testes de API
 Documentação Swagger
+
 🚀 Principais Funcionalidades
+
 👤 Usuários
 Cadastro de usuários
 Consulta individual e listagem
 Atualização total (PUT)
 Atualização parcial (PATCH)
 Exclusão com validação de vínculo
+
 🏪 Lojas
 Cadastro e gerenciamento de lojas
 Consulta individual e listagem
 Atualização total e parcial
 Exclusão protegida por regras de negócio
+
 📦 Produtos
 Cadastro de produtos
 Controle de preço e quantidade
 Atualização total e parcial
 Exclusão condicionada ao status das listas
+
 📋 Lista de Compras
 Associação entre usuário, loja e produto
 Controle de quantidade e preço histórico
@@ -38,6 +43,7 @@ Validação automática de relacionamentos
 Controle de status da lista
 Prevenção de duplicidade
 Limite de itens por lista
+
 🛠️ Regras de Negócio Implementadas
 Integridade Referencial
 
